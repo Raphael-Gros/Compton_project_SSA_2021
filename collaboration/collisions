@@ -1,0 +1,41 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def simulate_collision(A, B, t, delta_t):
+    t_iter = int(t/delta_t)
+    pos_array = np.zeros((t_iter, 2))
+    r_A = A['r0']
+    r_B = B['r0']
+    v_A = A['v0']
+    v_B = B['v0']
+    change_direction = False
+    for i in range(0, t_iter):
+        if(collision(r_A, A['R'], r_B, B['R']) and change_direction==False):
+            change_direction = True
+            v_A = -v_A
+            v_B = -v_B
+        r_A = r_A + v_A*delta_t
+        r_B = r_B + v_B*delta_t
+        pos_array[i][0] = r_A
+        pos_array[i][1] = r_B
+    return pos_array
+
+def collision(r_A, R_A, r_B, R_B):
+    return r_A + R_A >= r_B + R_B
+A = {'v0':0.25, 'r0':-1, 'R':0.3}
+B = {'v0':-0.25, 'r0':1, 'R':0.3}
+t=5
+delta_t=0.1
+pos_array = simulate_collision(A, B, t, delta_t)
+
+#for visualization
+t_iter = int(t/delta_t)
+t_array = np.linspace(0,t,t_iter)
+pos_array_A = pos_array.T[0]
+pos_array_B = pos_array.T[1]
+
+plt.plot(t_array, pos_array_A, label='Particle A')
+plt.plot(t_array, pos_array_B, label='Particle B')
+plt.legend(loc='best')
+plt.show()
