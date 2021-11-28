@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
+#Chloe is here
 
 def simulate_collision(A, B, t, delta_t):
     t_iter = int(t/delta_t)
