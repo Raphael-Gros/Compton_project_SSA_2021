@@ -1,0 +1,27 @@
+import numpy as np
+import numpy.random as rand
+import matplotlib.pyplot as pl
+from scipy import special
+
+me=9.10938356E-31
+q=1.60217662E-19
+c=3e8
+N=1000
+Ncoll=100
+Nbins=30
+E0=100E3*q
+for i in range (Ncoll):
+    alpha = E0/(me*c**2) 
+    s=E0/(me*c**2+0.5625E0)
+    R=rand.rand(N)
+    E2 = E0/(1+s*R+(2*E0/(me*c**2)-s)*R**3)
+    theta2 = np.arccos(1-me*c**2/E0*(E0/E2-1))
+
+    pl.polar()
+    pl.hist(theta2,Nbins,density=True)
+    pl.xlabel('theta (rad)')
+    pl.ylabel('E')
+
+    E0=E2
+
+pl.show()
